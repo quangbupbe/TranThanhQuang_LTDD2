@@ -8,40 +8,37 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-import CartScreen from "./CartScreen";
 
 function Header() {
+  const navigation = useNavigation();
   const handlePress = () => {
     // Xử lý khi người dùng nhấn vào liên kết
     console.log("Link clicked!");
   };
-
-  const [searchText, setSearchText] = useState("");
-  const handleSearchPress = () => {
-    // Xử lý khi người dùng nhấn vào nút tìm kiếm
-    console.log("Search clicked!");
+  const Cart = () => {
+    navigation.navigate("Cart");
   };
+  const renderCategoryItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleCategoryPress(item)}>
+      <Text style={styles.categoryItem}>{item}</Text>
+    </TouchableOpacity>
+  );
 
-  const handleCartPress = () => {
-    navigation.navigate("CartScreen");
-  };
-
-  const navigation = useNavigation();
   return (
     <View>
       <View style={styles.header1}>
-        {/* <Icon name="map" size={20} color="#FFFFFF" />
-          <Text> </Text>
-          <Text style={styles.colorWhite}>
-            {" "}
-            Địa điểm của bạn là: Hồ Chí Minh{" "}
-          </Text>
+        <Icon name="map" size={20} color="#FFFFFF" />
+        <Text> </Text>
+        <Text style={styles.colorWhite}>
+          {" "}
+          Địa điểm của bạn là: Hồ Chí Minh{" "}
+        </Text>
 
-          <View style={{ flex: 1, alignItems: "flex-end" }}>
-            <TouchableOpacity onPress={handlePress}>
-              <Text style={styles.linkText}>Đổi</Text>
-            </TouchableOpacity>
-          </View> */}
+        <View style={{ flex: 1, alignItems: "flex-end" }}>
+          <TouchableOpacity onPress={handlePress}>
+            <Text style={styles.linkText}>Đổi</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.header2}>
@@ -53,22 +50,11 @@ function Header() {
           <View style={styles.header222}>
             <Text style={styles.linkText1}>Đăng nhập</Text>
             <Icon name="user-o" size={20} color="#000000" />
-            <TouchableOpacity onPress={handleCartPress}>
+            <TouchableOpacity onPress={Cart}>
               <Icon name="shopping-cart" size={20} color="#000000" />
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Tìm kiếm..."
-          value={searchText}
-          onChangeText={(text) => setSearchText(text)}
-        />
-        <TouchableOpacity onPress={handleSearchPress}>
-          <Icon name="search" size={20} color="#000000" />
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -132,17 +118,21 @@ const styles = StyleSheet.create({
   colorWhite: {
     color: "#FFFFFF",
   },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#e0e0e0",
-    borderRadius: 8,
-    marginTop: 3,
-    padding: 2,
-    width: "100%",
+  dropdownMenu: {
+    position: "absolute",
+    top: 40,
+    right: 8,
+    backgroundColor: "#FFFFFF",
+    padding: 8,
+    borderRadius: 5,
+    elevation: 5,
+    zIndex: 1,
   },
-  searchInput: {
-    flex: 1,
+
+  categoryItem: {
+    fontSize: 16,
+    color: "#000000",
+    marginBottom: 8,
   },
 });
 

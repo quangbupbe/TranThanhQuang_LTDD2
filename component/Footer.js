@@ -4,17 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import Iconnn from 'react-native-vector-icons/AntDesign';
 
-const Footer = () => {
+const Footer = ({ setSelectedCategory }) => {
   const navigation = useNavigation();
   const [reloadApp, setReloadApp] = useState(false);
-  
-
   useEffect(() => {
     if (reloadApp) {
-      // Perform any actions you need before "reloading" the app
-      // For example, you can reset some state or fetch fresh data
-
-      // After that, setReloadApp(false) to reset the "reload" state
       setReloadApp(false);
     }
   }, [reloadApp]);
@@ -22,6 +16,8 @@ const Footer = () => {
   const handleHomePress = () => {
     // Set the reloadApp state to true when the "Trang Chủ" button is pressed
     setReloadApp(true);
+        setSelectedCategory(null);
+        navigation.navigate("Home");
   };
 
   return (
