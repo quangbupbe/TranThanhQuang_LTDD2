@@ -6,10 +6,10 @@ const Slider = () => {
   const slides = [
     {
       id: 1,
-      imageUrl: require("../assets/slider/slider_1.webp"),
+      imageUrl: require("../../assets/slider/slider_1.webp"),
       text: "Slide 1",
     },
-    { id: 2, imageUrl: require('../assets/slider/slider_2.webp'), text: 'Slide 2' },
+    { id: 2, imageUrl: require('../../assets/slider/slider_2.webp'), text: 'Slide 2' },
     // Add more slides here with corresponding image paths
   ];
 

@@ -23,11 +23,13 @@ function Header() {
       <Text style={styles.categoryItem}>{item}</Text>
     </TouchableOpacity>
   );
-
+  const handleLoginPress = () => {
+    navigation.navigate("Login"); // Đổi tên màn hình nếu cần
+  };
   return (
     <View>
       <View style={styles.header1}>
-        <Icon name="map" size={20} color="#FFFFFF" />
+        {/* <Icon name="map" size={20} color="#FFFFFF" />
         <Text> </Text>
         <Text style={styles.colorWhite}>
           {" "}
@@ -38,7 +40,7 @@ function Header() {
           <TouchableOpacity onPress={handlePress}>
             <Text style={styles.linkText}>Đổi</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       <View style={styles.header2}>
@@ -48,8 +50,6 @@ function Header() {
         </View>
         <View style={styles.header22}>
           <View style={styles.header222}>
-            <Text style={styles.linkText1}>Đăng nhập</Text>
-            <Icon name="user-o" size={20} color="#000000" />
             <TouchableOpacity onPress={Cart}>
               <Icon name="shopping-cart" size={20} color="#000000" />
             </TouchableOpacity>
@@ -95,19 +95,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   header21: {
-    fontFamily: "Kalnia_SemiExpanded-Light",
-    fontSize: 20,
+    fontFamily: "Kalnia_SemiExpanded-ExtraLight",
+    fontSize: 30,
+    textAlign: "center",
+    alignItems: "center",
+    padding: "10px",
   },
   header22: {
     justifyContent: "flex-end",
     flex: 1,
     flexDirection: "row",
-    alignItems: "center",
+    textAlign: "center", // Căn giữa ngang của icon
+    alignItems: "center", // Căn giữa dọc của icon
   },
   header222: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 1,
+    padding: 3,
+    fontSize: 30,
   },
   icon: {
     paddingLeft: 8,

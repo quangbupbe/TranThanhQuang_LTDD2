@@ -19,31 +19,54 @@ const Footer = ({ setSelectedCategory }) => {
         setSelectedCategory(null);
         navigation.navigate("Home");
   };
+  const handleMailPress = () => {
+    // Set the reloadApp state to true when the "Trang Chủ" button is pressed
+    setReloadApp(true);
+    setSelectedCategory(null);
+    navigation.navigate("Home");
+  };
+  const handleLivePress = () => {
+    // Set the reloadApp state to true when the "Trang Chủ" button is pressed
+    setReloadApp(true);
+    setSelectedCategory(null);
+    navigation.navigate("Home");
+  };
+  const handleAdvPress = () => {
+    // Set the reloadApp state to true when the "Trang Chủ" button is pressed
+    setReloadApp(true);
+    setSelectedCategory(null);
+    navigation.navigate("Home");
+  };
+  const handleMePress = () => {
+    // Set the reloadApp state to true when the "Trang Chủ" button is pressed
+    setReloadApp(true);
+    setSelectedCategory(null);
+    navigation.navigate("Home");
+  };
 
   return (
     <View style={styles.footer}>
-      
-        <TouchableOpacity style={styles.footer1} onPress={handleHomePress}>
-          <Icon name="home" size={20} color="#000000" />
-          <Text>Trang Chủ</Text>
+      <TouchableOpacity style={styles.footer1} onPress={handleHomePress}>
+        <Icon name="home" size={20} color="#000000" />
+        <Text>Trang Chủ</Text>
       </TouchableOpacity>
-      
-      <View style={styles.footer1}>
+
+      <TouchableOpacity style={styles.footer1} onPress={handleMailPress}>
         <Iconnn name="mail" size={20} color="#000000" />
         <Text>Mail</Text>
-      </View>
-      <View style={styles.footer1}>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.footer1} onPress={handleLivePress}>
         <Icon name="video" size={20} color="#000000" />
         <Text>Live</Text>
-      </View>
-      <View style={styles.footer1}>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.footer1} onPress={handleAdvPress}>
         <Icon name="bell" size={20} color="#000000" />
         <Text>Thông Báo</Text>
-      </View>
-      <View style={styles.footer1}>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.footer1} onPress={handleMePress}>
         <Icon name="grid" size={20} color="#000000" />
         <Text>Tôi</Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

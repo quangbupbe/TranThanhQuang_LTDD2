@@ -1,28 +1,79 @@
 // Content.js
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-import Slider from './Slider';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import Slider from "./product/Slider";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getProducts } from "./api/apiService";
+import ProductSearch from "./product/Search"; // Import the ProductSearch component
+import CategoryList from "./product/CategoryList";
+import { getProductsByCategory } from "./api/apiService";
 
-const Content = () => {
+const Content = ({ selectedCategory, setSelectedCategory }) => {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
-  const [visibleSpringItemCount, setVisibleSpringItemCount] = useState(3);
-  const [visibleCategoryItemCount, setVisibleCategoryItemCount] = useState(3);
-
+  // const [visibleSpringItemCount, setVisibleSpringItemCount] = useState(3);
+  // const [visibleCategoryItemCount, setVisibleCategoryItemCount] = useState(3);
+  const [cart, setCartItems] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchText, setSearchText] = useState("");
   useEffect(() => {
     // Gọi API để lấy dữ liệu sản phẩm
-    fetch('https://fakestoreapi.com/products')
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+    fetchData();
+  }, [selectedCategory]);
+
+  const fetchData = async () => {
+    try {
+      if (selectedCategory === "All" || !selectedCategory) {
+        const data = await getProducts();
+        setProducts(data);
+      } else {
+        const categoryProducts = await getProductsByCategory(selectedCategory);
+        setProducts(categoryProducts);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleAddToCart = async (product) => {
+    try {
+      const existingCart = await AsyncStorage.getItem("cart");
+      const existingCartArray = existingCart ? JSON.parse(existingCart) : [];
+      const existingProduct = existingCartArray.find(
+        (item) => item.id === product.id
+      );
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        existingCartArray.push({ ...product, quantity: 1 });
+      }
+      await AsyncStorage.setItem("cart", JSON.stringify(existingCartArray));
+      setCartItems(existingCartArray);
+      Alert.alert(
+        "Thông báo",
+        `Đã thêm sản phẩm ${product.title} vào giỏ hàng !`
+      );
+    } catch (error) {
+      console.error("Lỗi khi thêm vào giỏ hàng:", error);
+    }
+  };
 
   const renderProductItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleProductPress(item)}>
       <View style={styles.productItem}>
         <Image source={{ uri: item.image }} style={styles.image} />
-        <Text style={styles.productName} numberOfLines={2}>{item.title}</Text>
+        <Text style={styles.productName} numberOfLines={2}>
+          {item.title}
+        </Text>
         <Text style={styles.productPrice}>{`$${item.price}`}</Text>
         <TouchableOpacity style={styles.addToCartButton}>
           <Text style={styles.addToCartButtonText}>Add to Cart</Text>
@@ -31,33 +82,62 @@ const Content = () => {
     </TouchableOpacity>
   );
 
-  const handleProductPress = (product) => {
-    navigation.navigate('ProductDetail', { product });
+  const handleProductPress = (productid) => {
+    navigation.navigate("ProductDetail", { productid, handleAddToCart });
+  };
+  const handleSearchPress = () => {
+    const results = products.filter((product) =>
+      product.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setSearchResults(results);
   };
 
-  const handleShowMoreSpring = () => {
-    setVisibleSpringItemCount(visibleSpringItemCount + 3);
+  const handleSelectCategory = async (category) => {
+    if (selectedCategory !== category) {
+      setSelectedCategory(category);
+    }
   };
 
-  const handleShowMoreCategory = () => {
-    setVisibleCategoryItemCount(visibleCategoryItemCount + 3);
+  const handleAllPress = async () => {
+    setSelectedCategory("All");
+    await fetchData();
   };
+
+  // const handleShowMoreSpring = () => {
+  //   setVisibleSpringItemCount(visibleSpringItemCount + 3);
+  // };
+
+  // const handleShowMoreCategory = () => {
+  //   setVisibleCategoryItemCount(visibleCategoryItemCount + 3);
+  // };
 
   return (
     <View>
+      <ProductSearch
+        searchText={searchText}
+        onSearchTextChange={setSearchText}
+        onSearchPress={handleSearchPress}
+      />
       <Slider />
+      <CategoryList
+        onSelectCategory={handleSelectCategory}
+        onAllPress={handleAllPress}
+      />
       <View style={styles.container}>
         <View style={styles.container1}>
-          <Text style={styles.sectionTitle}>Spring Collection</Text>
-          {visibleSpringItemCount < products.length && (
-            <TouchableOpacity onPress={handleShowMoreSpring} style={styles.showMoreButton}>
-              <Text style={styles.showMoreButtonText}>Xem thêm</Text>
-            </TouchableOpacity>
-          )}
+          <Text style={styles.sectionTitle}>
+            {selectedCategory !== null && selectedCategory !== "All"
+              ? selectedCategory
+              : "Tất cả sản phẩm"}
+          </Text>
         </View>
 
         <FlatList
-          data={products.slice(0, visibleSpringItemCount)}
+          data={
+            searchResults.length > 0
+              ? searchResults.slice(0)
+              : products.slice(0)
+          }
           renderItem={renderProductItem}
           keyExtractor={(item) => item.id.toString()}
           horizontal

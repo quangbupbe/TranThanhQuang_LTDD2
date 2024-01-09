@@ -3,7 +3,7 @@ import React from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const ProductSearch = ({ searchText, onSearchTextChange, onSearchPress }) => {
+const Search = ({ searchText, onSearchTextChange, onSearchPress }) => {
   return (
     <View style={styles.searchContainer}>
       <TextInput
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-export default ProductSearch;
+export default Search;

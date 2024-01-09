@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, ScrollView } from "react-native";
 import Header from "./component/Header";
 import Content from "./component/Content";
 import Footer from "./component/Footer";
-import ProductDetail from "./component/ProductDetail";
+import Cart from "./component/product/ProductCart";
+import ProductDetail from "./component/product/ProductDetail";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import LoginScreen from "./component/user/LoginScreen";
+import SignUpScreen from "./component/user/SignUpScreen";
+import Profile from "./component/Profile";
+import Slider from "./component/product/Slider";
 
 export default function App() {
   const Stack = createStackNavigator();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [fontLoaded] = useFonts({
     "Shizuru-Regular": require("./assets/fonts/Shizuru-Regular.ttf"),
     "JosefinSans-ExtraLight": require("./assets/fonts/JosefinSans-ExtraLight.ttf"),
@@ -59,12 +65,13 @@ export default function App() {
         <Header />
       </View>
       <ScrollView style={{ flex: 1, width: "100%" }}>
-        <Content />
-        <Content />
+        <Content
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </ScrollView>
-
       <View style={styles.footer}>
-        <Footer />
+        <Footer setSelectedCategory={setSelectedCategory} />
       </View>
 
       <StatusBar style="auto" />
@@ -79,7 +86,27 @@ export default function App() {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="ProductDetail" component={ProductDetail} />
+        <Stack.Screen
+          name="ProductDetail"
+          component={ProductDetail}
+          options={{ headerTitle: "Chi tiết sản phẩm" }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={Cart}
+          options={{ headerTitle: "Giỏ hàng" }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
