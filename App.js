@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, ScrollView } from "react-native";
-import Header from "./component/Header";
-import Content from "./component/Content";
-import Footer from "./component/Footer";
+import { StyleSheet, View,Text, ScrollView } from "react-native";
+import Home from "./component/Home";
 import Cart from "./component/product/ProductCart";
 import ProductDetail from "./component/product/ProductDetail";
 import { useFonts } from "expo-font";
@@ -11,8 +8,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./component/user/LoginScreen";
 import SignUpScreen from "./component/user/SignUpScreen";
-import Profile from "./component/Profile";
-import Slider from "./component/product/Slider";
+import Profile from "./component/profile/Profile";
+import { AuthProvider } from "./component/api/AuthProvider";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -59,55 +57,48 @@ export default function App() {
   if (!fontLoaded) {
     return <View />; // Render a loading indicator or placeholder while the font is loading
   }
-  const HomeScreen = () => (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Header />
-      </View>
-      <ScrollView style={{ flex: 1, width: "100%" }}>
-        <Content
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-        />
-      </ScrollView>
-      <View style={styles.footer}>
-        <Footer setSelectedCategory={setSelectedCategory} />
-      </View>
-
-      <StatusBar style="auto" />
-    </View>
-  );
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ProductDetail"
-          component={ProductDetail}
-          options={{ headerTitle: "Chi tiết sản phẩm" }}
-        />
-        <Stack.Screen
-          name="Cart"
-          component={Cart}
-          options={{ headerTitle: "Giỏ hàng" }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUpScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator>
+      <AuthProvider>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ProductDetail"
+            component={ProductDetail}
+            options={{ headerTitle: "Chi tiết sản phẩm" }}
+          />
+          <Stack.Screen
+            name="Cart"
+            component={Cart}
+            options={{ headerTitle: "Giỏ hàng" }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUpScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Checkout" options={{ title: "Thanh toán" }}>
+            {(props) => <Checkout {...props} setOrderDetail={setOrderDetail} />}
+          </Stack.Screen>
+          {/* <Stack.Screen
+            name="OrderDetail"
+            component={OrderDetail}
+            options={{ title: "Đơn hàng" }}
+          /> */}
+        </Stack.Navigator>
+        <Toast />
+      </AuthProvider>
     </NavigationContainer>
   );
 }
@@ -122,7 +113,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    height: "17%",
+    height: 80,
     alignItems: "center",
     backgroundColor: "#ff0303",
   },

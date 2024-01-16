@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Footer from "../Footer";
 import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 const ProductCart = () => {
   const [cart, setCartItems] = useState([]);
@@ -115,7 +116,7 @@ const ProductCart = () => {
           <FlatList
             data={cart}
             renderItem={renderCartItem}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.toString()}
           />
         ) : (
           <Text style={styles.emptyText}>Giỏ hàng trống</Text>
@@ -142,9 +143,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    justifyContent: "center", // Thêm dòng này để căn giữa theo chiều ngang
+    alignItems: "center", // Thêm dòng này để căn giữa theo chiều dọc
     margin: 10,
-    flexDirection: "row", // Thêm dòng này để sắp xếp các sản phẩm theo chiều ngang
-    flexWrap: "wrap", // Thêm dòng này để các sản phẩm xuống dòng khi không đủ không gian
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   title: {
     fontSize: 20,
@@ -250,6 +253,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     textTransform: "uppercase",
+  },
+  emptyText: {
+    textAlign: "center",
+    fontSize: 20,
+    marginTop: 10,
+    alignItems: "center", // Thêm dòng này để căn giữa theo chiều dọc
   },
 });
 

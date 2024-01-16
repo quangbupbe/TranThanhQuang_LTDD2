@@ -6,10 +6,10 @@ const Slider = () => {
   const slides = [
     {
       id: 1,
-      imageUrl: require("../../assets/slider/slider_1.webp"),
+      imageUrl: require("../../assets/slider/slider_1.jpg"),
       text: "Slide 1",
     },
-    { id: 2, imageUrl: require('../../assets/slider/slider_2.webp'), text: 'Slide 2' },
+    { id: 2, imageUrl: require('../../assets/slider/slider_2.jpg'), text: 'Slide 2' },
     // Add more slides here with corresponding image paths
   ];
 
@@ -33,27 +33,27 @@ const Slider = () => {
 };
 
 const styles = StyleSheet.create({
-    sliderContainer: {
-        flex:1,
-        justifyContent: 'flex-start',
-        width: '100%',
-        height: 136,
-        backgroundColor: '#e0e0e0',
-        marginTop:2,
-      },
-      slide: {
-        width: Dimensions.get('window').width-20, // Adjusted width to match the screen width
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 8,
-        overflow: 'hidden',
-      },
-      image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-      },
+  sliderContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    width: "100%",
+    height: 136,
+    backgroundColor: "#e0e0e0",
+    marginTop: 2,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  slide: {
+    width: Dimensions.get("window").width - 20, // Adjusted width to match the screen width
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 8,
+    overflow: "hidden",
+  },
 });
 
 export default Slider;

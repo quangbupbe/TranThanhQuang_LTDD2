@@ -10,12 +10,11 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { getProductsByCategory } from "../api/apiService";
-
 const ProductDetail = ({ route }) => {
   const { productid, handleAddToCart } = route.params;
   const navigation = useNavigation();
   const handleAddToCartPress = () => {
-    handleAddToCart(productid);
+    handleAddToCartPress(productid);
     navigation.goBack();
   };
 
@@ -81,6 +80,7 @@ const ProductDetail = ({ route }) => {
             renderItem={renderRelatedProductItem}
             keyExtractor={(item) => item.id.toString()}
             horizontal
+            contentContainerStyle={styles.relatedProductList}
           />
         </View>
       </ScrollView>
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    padding: "10px",
   },
   image: {
     width: "100%",
@@ -102,19 +103,23 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 20,
     fontWeight: "bold",
+    textAlign: "center",
   },
   productCategory: {
     fontSize: 15,
     fontWeight: "bold",
+    textAlign: "center",
   },
   productPrice: {
     fontSize: 18,
     color: "green",
     marginBottom: 10,
+    textAlign: "center",
   },
   productDescription: {
     fontSize: 16,
     textAlign: "center",
+    marginBottom: 10,
   },
   addToCartButton: {
     backgroundColor: "#ff0303",
@@ -155,6 +160,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
     marginBottom: 10,
+    textAlign: "center",
+  },
+  relatedProductList: {
+    paddingHorizontal: 10, // Thêm padding ngang
+    marginHorizontal: 10, //
+    margin: 10
   },
 });
 

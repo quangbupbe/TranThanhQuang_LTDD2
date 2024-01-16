@@ -29,7 +29,7 @@ const CategoryList = ({ onSelectCategory,onAllPress}) => {
 
   return (
     <View style={styles.container}>
-    <Text style={styles.title}>Categories</Text>
+    <Text style={styles.title}>Danh mục</Text>
     <FlatList
       data={categories}
       renderItem={renderCategoryItem}

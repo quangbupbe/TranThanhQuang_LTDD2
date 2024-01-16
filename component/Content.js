@@ -43,8 +43,11 @@ const Content = ({ selectedCategory, setSelectedCategory }) => {
       console.error("Error fetching data:", error);
     }
   };
-
-  const handleAddToCart = async (product) => {
+  // const handleAddToCartPress = () => {
+  //   handleAddToCart(productid);
+  
+  // };
+  const handleAddToCartPress = async (product) => {
     try {
       const existingCart = await AsyncStorage.getItem("cart");
       const existingCartArray = existingCart ? JSON.parse(existingCart) : [];
@@ -75,7 +78,9 @@ const Content = ({ selectedCategory, setSelectedCategory }) => {
           {item.title}
         </Text>
         <Text style={styles.productPrice}>{`$${item.price}`}</Text>
-        <TouchableOpacity style={styles.addToCartButton}>
+        <TouchableOpacity
+          onPress={handleAddToCartPress}
+          style={styles.addToCartButton}>
           <Text style={styles.addToCartButtonText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
@@ -83,7 +88,7 @@ const Content = ({ selectedCategory, setSelectedCategory }) => {
   );
 
   const handleProductPress = (productid) => {
-    navigation.navigate("ProductDetail", { productid, handleAddToCart });
+    navigation.navigate("ProductDetail", { productid, handleAddToCartPress }); //
   };
   const handleSearchPress = () => {
     const results = products.filter((product) =>
@@ -140,7 +145,7 @@ const Content = ({ selectedCategory, setSelectedCategory }) => {
           }
           renderItem={renderProductItem}
           keyExtractor={(item) => item.id.toString()}
-          horizontal
+          horizontal={true}
         />
       </View>
     </View>
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
     margin: 3,
   },
   container1: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
     margin: 3,

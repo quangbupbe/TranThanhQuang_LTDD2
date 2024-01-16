@@ -1,6 +1,11 @@
-// ProductSearch.js
 import React from "react";
-import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const Search = ({ searchText, onSearchTextChange, onSearchPress }) => {
@@ -12,12 +17,13 @@ const Search = ({ searchText, onSearchTextChange, onSearchPress }) => {
         value={searchText}
         onChangeText={onSearchTextChange}
       />
-      <TouchableOpacity onPress={onSearchPress}>
-        <Icon name="search" size={20} color="#000000" />
+      <TouchableOpacity onPress={onSearchPress} style={styles.searchButton}>
+        <Icon name="search" size={20} color="#ffffff" />
       </TouchableOpacity>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: "row",
@@ -31,5 +37,12 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
   },
+  searchButton: {
+    backgroundColor: "#000000",
+    padding: 8,
+    borderRadius: 8,
+    marginLeft: 4,
+  },
 });
+
 export default Search;
