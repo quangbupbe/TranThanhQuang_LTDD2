@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View,Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Home from "./component/Home";
 import Cart from "./component/product/ProductCart";
 import ProductDetail from "./component/product/ProductDetail";
@@ -11,7 +11,7 @@ import SignUpScreen from "./component/user/SignUpScreen";
 import Profile from "./component/profile/Profile";
 import { AuthProvider } from "./component/api/AuthProvider";
 import Toast from "react-native-toast-message";
-
+import PaymentScreen from "./component/product/PaymentScreen";
 export default function App() {
   const Stack = createStackNavigator();
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -88,14 +88,11 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="Checkout" options={{ title: "Thanh toán" }}>
-            {(props) => <Checkout {...props} setOrderDetail={setOrderDetail} />}
-          </Stack.Screen>
-          {/* <Stack.Screen
-            name="OrderDetail"
-            component={OrderDetail}
-            options={{ title: "Đơn hàng" }}
-          /> */}
+          <Stack.Screen
+            name="PaymentScreen"
+            component={PaymentScreen}
+            options={{ title: "Thanh toán" }}
+          />
         </Stack.Navigator>
         <Toast />
       </AuthProvider>

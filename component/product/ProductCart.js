@@ -12,7 +12,6 @@ import {
 import Footer from "../Footer";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-
 const ProductCart = () => {
   const [cart, setCartItems] = useState([]);
   useFocusEffect(
@@ -29,7 +28,7 @@ const ProductCart = () => {
       fetchCart();
     }, []) // [] đảm bảo rằng hàm callback chỉ chạy khi component được mount và unmount
   );
-
+  const navigation = useNavigation();
   const removeItemFromCart = async (itemId) => {
     Alert.alert(
       "Xác nhận",
@@ -55,7 +54,10 @@ const ProductCart = () => {
       { cancelable: false }
     );
   };
-
+  const ClearCart = () => {
+    setCart([]);
+    AsyncStorage.removeItem("cart");
+  };
   const updateQuantity = async (itemId, newQuantity) => {
     if (newQuantity <= 0) {
       removeItemFromCart(itemId);
@@ -65,6 +67,7 @@ const ProductCart = () => {
       );
       setCartItems(updatedCart);
       try {
+
         await AsyncStorage.setItem("cart", JSON.stringify(updatedCart));
       } catch (error) {
         console.error("Lỗi khi cập nhật AsyncStorage:", error);
@@ -105,8 +108,7 @@ const ProductCart = () => {
     </View>
   );
   const handleCheckout = () => {
-    // Xử lý khi người dùng nhấn vào nút thanh toán
-    // Ví dụ: chuyển đến màn hình thanh toán
+     navigation.navigate("PaymentScreen");
   };
 
   return (

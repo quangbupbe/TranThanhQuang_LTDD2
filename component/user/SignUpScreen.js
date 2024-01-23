@@ -15,14 +15,25 @@ function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSignUp = () => {
     // Thực hiện xử lý đăng ký ở đây
     console.log("Đăng ký với:", username, password, confirmPassword);
+
+    // Simulate successful registration
+    setSuccessMessage("Bạn đã đăng ký thành công.");
+
+    // Navigate to login screen
+    setTimeout(() => {
+      navigation.navigate("Login");
+    }, 2000);
   };
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
       <View style={styles.container}>
@@ -72,6 +83,9 @@ function SignUpScreen({ navigation }) {
         <TouchableOpacity style={styles.button} onPress={handleSignUp}>
           <Text style={styles.buttonText}>Đăng ký</Text>
         </TouchableOpacity>
+        {successMessage !== "" && (
+          <Text style={styles.successMessage}>{successMessage}</Text>
+        )}
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
           <Text style={styles.link}>Đã có tài khoản? Đăng nhập ngay</Text>
         </TouchableOpacity>
@@ -111,6 +125,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+  button: {
+    backgroundColor: "#fa8225",
+    padding: 10,
+    borderRadius: 5,
+    width: "100%",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 16,
+  },
   passwordInput: {
     flex: 1,
     height: 40,
@@ -127,30 +152,9 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
   },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 16,
-    paddingLeft: 8,
-    width: "100%",
-  },
-  button: {
-    backgroundColor: "#fa8225",
-    padding: 10,
-    borderRadius: 5,
-    width: "100%",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-  },
-  link: {
+  successMessage: {
+    color: "green",
     marginTop: 16,
-    color: "#000000",
-    textDecorationLine: "underline",
   },
 });
 

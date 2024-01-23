@@ -2,59 +2,112 @@ import React, { useState } from "react";
 import {
   View,
   Text,
+  StyleSheet,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
-const navigation = useNavigation();
+import Icon from "react-native-vector-icons/Ionicons";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 const PaymentScreen = () => {
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState(""); // State variable for displaying messages
+  const navigation = useNavigation();
 
-  const handleNameChange = (text) => {
-    setName(text);
+  const handleCashOnDelivery = () => {
+    // Validate input fields
+    if (fullName === "" || address === "" || phoneNumber === "") {
+      setMessage("Xin vui lòng điền đầy đủ vào những ô trống!");
+      return;
+    }
+
+    // Handle cash on delivery payment
+    setMessage("Payment by cash on delivery");
+    clearCartAndNavigate();
   };
 
-  const handleAddressChange = (text) => {
-    setAddress(text);
+  const handleCreditCardPayment = () => {
+    // Handle credit card payment
+    setMessage("Payment by credit card");
+    clearCartAndNavigate();
   };
 
-  const handlePaymentMethodChange = (text) => {
-    setPaymentMethod(text);
+  const handleMoMoPayment = () => {
+    // Handle MoMo payment
+    setMessage("Payment by MoMo");
+    clearCartAndNavigate();
   };
 
-  const handleCheckout = () => {
-    // Xử lý khi người dùng nhấn vào nút thanh toán
-    // Ví dụ: gửi thông tin thanh toán lên server
+  const clearCartAndNavigate = () => {
+    // Clear the shopping cart and navigate back to the home screen
+    // Replace this with your actual code to clear the cart
+    setMessage("Clearing the shopping cart");
+
+    navigation.navigate("Home"); // Replace "Home" with the actual name of your home screen component
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Thông tin thanh toán</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Họ và tên"
-        value={name}
-        onChangeText={handleNameChange}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Địa chỉ"
-        value={address}
-        onChangeText={handleAddressChange}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Phương thức thanh toán"
-        value={paymentMethod}
-        onChangeText={handlePaymentMethodChange}
-      />
-      <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
-        <Text style={styles.checkoutButtonText}>Thanh toán</Text>
+      <View style={styles.inputContainer}>
+        <Icon name="person" size={20} color="#777" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Họ và tên"
+          value={fullName}
+          onChangeText={setFullName}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Icon name="location" size={20} color="#777" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Địa chỉ"
+          value={address}
+          onChangeText={setAddress}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Icon name="call" size={20} color="#777" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Số điện thoại"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+        />
+      </View>
+
+      {message !== "" && <Text style={styles.message}>{message}</Text>}
+
+      <TouchableOpacity style={styles.button1} onPress={handleCashOnDelivery}>
+        <FontAwesomeIcon
+          name="money"
+          size={20}
+          color="#fff"
+          style={styles.buttonIcon}
+        />
+        <Text style={styles.buttonText}>Thanh toán khi nhận hàng</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button2}
+        onPress={handleCreditCardPayment}>
+        <Icon name="card" size={20} color="#fff" style={styles.buttonIcon} />
+        <Text style={styles.buttonText}>Thanh toán bằng thẻ</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button3} onPress={handleMoMoPayment}>
+        <FontAwesomeIcon
+          name="mobile"
+          size={20}
+          color="#fff"
+          style={styles.buttonIcon}
+        />
+        <Text style={styles.buttonText}>Thanh toán bằng MoMo</Text>
       </TouchableOpacity>
     </View>
   );
@@ -63,31 +116,66 @@ const PaymentScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 16,
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 8,
+    borderBottomWidth: 1,
+    borderColor: "#777",
+    paddingBottom: 4,
+  },
+  icon: {
+    marginRight: 8,
   },
   input: {
+    flex: 1,
     height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 8,
   },
-  checkoutButton: {
-    backgroundColor: "blue",
-    paddingHorizontal: 16,
+  button1: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1ab30c",
+    borderRadius: 8,
     paddingVertical: 12,
-    borderRadius: 4,
+    paddingHorizontal: 24,
+    marginVertical: 8,
   },
-  checkoutButtonText: {
-    color: "white",
-    fontWeight: "bold",
+  button2: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#3745de",
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    marginVertical: 8,
+  },
+  button3: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f525e0",
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    marginVertical: 8,
+  },
+  buttonIcon: {
+    marginRight: 8,
+  },
+  buttonText: {
+    color: "#fff",
     fontSize: 16,
-    textAlign: "center",
+  },
+  message: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 16,
+    color: "#ff0000",
   },
 });
 

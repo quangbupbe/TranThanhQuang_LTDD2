@@ -45,7 +45,7 @@ const Content = ({ selectedCategory, setSelectedCategory }) => {
   };
   // const handleAddToCartPress = () => {
   //   handleAddToCart(productid);
-  
+
   // };
   const handleAddToCartPress = async (product) => {
     try {
@@ -79,7 +79,7 @@ const Content = ({ selectedCategory, setSelectedCategory }) => {
         </Text>
         <Text style={styles.productPrice}>{`$${item.price}`}</Text>
         <TouchableOpacity
-          onPress={handleAddToCartPress}
+          onPress={() => handleAddToCartPress(item)}
           style={styles.addToCartButton}>
           <Text style={styles.addToCartButtonText}>Add to Cart</Text>
         </TouchableOpacity>
